@@ -24,6 +24,14 @@ From this link, you can obtain the Excel file called "coverage_estimates"
 In addition, in this repo you will find a file called "import_WUENIC_data.csv", with the instructions to the find information on the relevant spreadsheets (from the “coverage_estimates” Excel file) into Montagu
 
 
+How the new WEUNIC coverage is going to be incorporated into the “coverage_table”?
+The replacement of coverage values from WENIC data is going to be for activity_type “routine” and “with” gavi_support_level 
+  
+unique(cov$gavi_support_level)
+[1] "hold2010" "with"     "none"     "without" 
+unique(cov$activity_type)
+[1] "routine" "campaign"
+
 
 
 
