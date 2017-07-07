@@ -27,7 +27,7 @@ INSTRUCTIONS:
 3. The file "best_estimate_scenario_modified_update_Jul2016.csv" indicates the scenarios where the coverage estimates should be updated in the coverage table for this modified update July 2016.
 
 
-
+If the 3rd instruction is rather difficult, I can do it manually in R, as I have already selected the coverage from the relevant scenarios for the modified update. 
 
 
 
