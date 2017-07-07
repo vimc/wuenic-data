@@ -20,17 +20,14 @@ http://apps.who.int/immunization_monitoring/globalsummary/timeseries/tswucoverag
 
 INSTRUCTIONS:
 
-From this link, you can obtain the Excel file called "coverage_estimates"
-In addition, in this repo you will find a file called "import_WUENIC_data.csv", with the instructions to the find information on the relevant spreadsheets (from the “coverage_estimates” Excel file) into Montagu
+From this link, you can obtain the Excel file called "coverage_estimates_series.xls"
+In addition, in this repo you will find a file called "import_WUENIC_data.csv", with the instructions to the find information on the relevant spreadsheets (from the coverage_estimates_series.xls file) into Montagu
 
 
-How the new WEUNIC coverage is going to be incorporated into the “coverage_table”?
-The replacement of coverage values from WENIC data is going to be for activity_type “routine” and “with” gavi_support_level 
-  
-unique(cov$gavi_support_level)
-[1] "hold2010" "with"     "none"     "without" 
-unique(cov$activity_type)
-[1] "routine" "campaign"
+How the new WEUNIC coverage is going to be incorporated into the “coverage” table?
+
+These coverage information should be updated only for specific scenario.scenario_description as especified in the file called "best_estimate_scenario_modified_update_Jul2016.csv" 
+
 
 
 
