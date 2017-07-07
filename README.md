@@ -20,13 +20,14 @@ http://apps.who.int/immunization_monitoring/globalsummary/timeseries/tswucoverag
 
 INSTRUCTIONS:
 
-From this link, you can obtain the Excel file called "coverage_estimates_series.xls"
-In addition, in this repo you will find a file called "import_WUENIC_data.csv", with the instructions to the find information on the relevant spreadsheets (from the coverage_estimates_series.xls file) into Montagu
+1. From this link or into the repo, you can obtain the original Excel file called "coverage_estimates_series.xls"
+
+2. The file "import_WUENIC_data.csv"  indicates which spreadheets and cells to import from the Excel file for the update
+
+3. The file "best_estimate_scenario_modified_update_Jul2016.csv" indicates the scenarios where the coverage estimates should be updated in the coverage table for this modified update July 2016.
 
 
-How the new WEUNIC coverage is going to be incorporated into the “coverage” table?
 
-These coverage information should be updated only for specific scenario.scenario_description as especified in the file called "best_estimate_scenario_modified_update_Jul2016.csv" 
 
 
 
