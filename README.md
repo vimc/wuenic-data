@@ -1,6 +1,6 @@
 # WEUNIC--data-
  
-Scripts for importing the spreadsheets for WHO/UNICEF estimates of national immunization coverage 
+Scripts for importing the spreadsheets for WHO/UNICEF estimates of national immunization coverage and update the coverage estimates for the Modified Update in July 2016
 
 
 About the WHO/UNICEF estimates:
