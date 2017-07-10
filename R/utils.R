@@ -17,7 +17,9 @@ montagu_connection <- function(host = "localhost", port = 5432) {
 
 read_xls <- function(...) {
   oo <- options(warnPartialMatchArgs = FALSE)
-  on.exit(options(oo))
+  if (!is.null(oo$warnPartialMatchArgs)) {
+    on.exit(options(oo))
+  }
   readxl::read_xls(...)
 }
 
