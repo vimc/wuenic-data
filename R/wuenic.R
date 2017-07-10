@@ -66,7 +66,9 @@ import_wuenic <- function(x) {
   x$touchstone <- sprintf("%s-%d", x$touchstone_name, x$touchstone_version)
   dat <- prepare_wuenic(x$date)
 
-  con <- montagu_connection(port = 8888)
+  host <- Sys.getenv("MONTAGU_DB_HOST", "localhost")
+  port <- as.integer(Sys.getenv("MONTAGU_DB_PORT", 8888))
+  con <- montagu_connection(host, port)
 
   res <- DBI::dbGetQuery(con, "SELECT id FROM touchstone WHERE id = $1",
                          x$touchstone)$id
