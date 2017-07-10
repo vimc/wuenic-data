@@ -1,0 +1,10 @@
+date,vaccine,disease,gavi_support_level,activity_type,year_start,year_end,sheet_name,cell_from,cell_to,comments
+20170303,HepB_BD,HepB,with,routine,2000,2015,HepB_BD,E2,T195,
+20170303,HepB,HepB,with,routine,1989,2015,HepB3,E2,AE195,
+20170303,Hib3,Hib,with,routine,1991,2015,Hib3,E2,AC195,
+20170303,MCV1,Measles,with,routine,1980,2015,MCV1,E2,AN195,
+20170303,MCV2,Measles,with,routine,2000,2015,MCV2,E2,T195,
+20170303,PCV3,Measles,with,routine,2008,2015,PCV3,E2,L195,
+20170303,Rubella,Rubella,with,routine,1980,2015,RCV1,E2,AN195,
+20170303,Rota,Rota,with,routine,2006,2015,RotaC,E2,N195,
+20170303,YF,YF,with,routine,1997,2015,YFV,E2,W45,
