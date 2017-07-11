@@ -105,7 +105,6 @@ import_wuenic <- function(x) {
   coverage$age_from <- 0L
   coverage$age_to <- 0L
   coverage$target <- NA_real_
-  coverage$gavi_support <- TRUE # for now - will drop later
 
   DBI::dbWriteTable(con, "coverage", coverage, append = TRUE)
 }
