@@ -82,15 +82,11 @@ import_wuenic <- function(x) {
   insert_values_into(con, "touchstone_name", d_touchstone_name,
                      key = "id", text_key = TRUE)
 
-  year_start <- min(dat$data$year[!is.na(dat$data$coverage)])
-  year_end <- max(dat$data$year[!is.na(dat$data$coverage)])
   d_touchstone <- data_frame(id = x$touchstone,
                              touchstone_name = x$touchstone_name,
                              version = x$touchstone_version,
                              description = x$touchstone_description,
-                             status = "in-preparation",
-                             year_start = year_start,
-                             year_end = year_end)
+                             status = "in-preparation")
   insert_values_into(con, "touchstone", d_touchstone, text_key = TRUE)
 
   coverage_set <- data_frame(name = sprintf("wuenic-%s", dat$info$vaccine),
