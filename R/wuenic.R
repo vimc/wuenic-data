@@ -1,20 +1,35 @@
-download_wuenic <- function(date) {
+download_who_all <- function() {
   versions <- read_csv("meta/versions.csv")
-  if (!date %in% versions$date) {
-    stop("Unknown date ", date)
+  get <- tapply(versions$date, versions$type, max)
+  for (i in seq_along(get)) {
+    download_who(names(get)[[i]], get[[i]])
+  }
+}
+
+download_who <- function(type, date) {
+  versions <- read_csv("meta/versions.csv")
+  idx <- date == versions$date & type == versions$type
+  x <- versions[idx, ]
+  if (nrow(x) == 0) {
+    stop(sprintf("Unknown who dataset %s/%s", type, date))
   }
 
   dir.create("xls", FALSE, TRUE)
-  dest <- file.path("xls", paste0(date, ".xls"))
+  dest <- file.path("xls", sprintf("%s_%s.xls", type, date))
 
   if (!file.exists(dest)) {
-    url <-
-      "http://www.who.int/entity/immunization/monitoring_surveillance/data/coverage_estimates_series.xls"
+    message(sprintf("Downloading %s/%s", type, date))
+    url <- who_url(type)
     tmp <- tempfile()
     download.file(url, tmp)
-    hash <- unname(tools::md5sum(tmp))
-    if (hash != versions$hash[versions$date == date]) {
-      stop("Unexpected hash!")
+    if (is.na(x$hash)) {
+      versions$hash[idx] <- unname(tools::md5sum(tmp))
+      write.csv(versions, "meta/versions.csv", row.names = FALSE)
+    } else {
+      hash <- unname(tools::md5sum(tmp))
+      if (hash != x$hash) {
+        stop("Unexpected hash!")
+      }
     }
     file.copy(tmp, dest)
     file.remove(tmp)
@@ -22,10 +37,20 @@ download_wuenic <- function(date) {
   dest
 }
 
+who_url <- function(type) {
+  switch(
+    type,
+    wuenic = "http://www.who.int/entity/immunization/monitoring_surveillance/data/coverage_estimates_series.xls",
+    reported = "http://www.who.int/entity/immunization/monitoring_surveillance/data/coverage_series.xls",
+    hpv_doses = "http://www.who.int/immunization/monitoring_surveillance/data/HPVadmin.xls",
+    schedule = "http://www.who.int/entity/immunization/monitoring_surveillance/data/schedule_data.xls",
+    stop("Unknown who data type ", type))
+}
+
 prepare_wuenic <- function(date) {
   extract <- read_csv("meta/extract.csv")
   extract <- extract[extract$date == date, , drop = FALSE]
-  xls <- download_wuenic(date)
+  xls <- download_who("coverage", date)
 
   prepare1 <- function(i) {
     x <- as.list(extract[i, ])
