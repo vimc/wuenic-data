@@ -50,16 +50,19 @@ who_url <- function(type) {
 prepare_wuenic <- function(date) {
   extract <- read_csv("meta/extract.csv")
   extract <- extract[extract$date == date, , drop = FALSE]
-  xls <- download_who("coverage", date)
+  xls <- download_who("wuenic", date)
 
-  prepare1 <- function(i) {
+  read1 <- function(i) {
     x <- as.list(extract[i, ])
     d <- read_xls(xls, sheet = x$sheet_name)
     if (d$Vaccine[[1]] != x$sheet_name) {
       ## Avoid an old readxl bug
       stop("Read the wrong sheet?")
     }
+    d
+  }
 
+  prepare1 <- function(d, index) {
     years <- grep("^[0-9]{4}$", names(d), value = TRUE)
 
     fix <- vapply(d[years], is.logical, logical(1))
@@ -70,20 +73,36 @@ prepare_wuenic <- function(date) {
       stop("FIX TYPE")
     }
 
-    data_frame(index = unname(i),
+    data_frame(index = unname(index),
                country = rep(d$ISO_code, length(years)),
                year = rep(years, each = nrow(d)),
                coverage = unlist(d[years], use.names = FALSE),
                row.names = NULL)
   }
 
-  res <- lapply(seq_len(nrow(extract)), prepare1)
+  res1 <- lapply(seq_len(nrow(extract)), function(i) prepare1(read1(i), i))
 
-  data <- do.call(rbind, res)
+  files <- dir(file.path("scaled", date),
+               pattern = "\\.csv$", full.names = TRUE)
+  res2 <- lapply(seq_along(files), function(i)
+    prepare1(read_csv(files[[i]]), i + length(res1)))
+  res <- c(res1, res2)
+
   info <- data_frame(index = seq_len(nrow(extract)),
                      extract[c("date", "vaccine", "disease",
                                "gavi_support_level", "activity_type")])
+  info <- info[seq_along(res), ]
+  i <- is.na(info$index)
+  info$index[i] <- vapply(res2, function(el) el$index[[1]], integer(1))
+  info$date[i]<- date
+  info$gavi_support_level[i] <- info$gavi_support_level[1]
+  info$activity_type[i] <- info$activity_type[1]
+  info$vaccine[i] <- sub("\\.csv$", "", basename(files))
+  ## TODO: may need changing for HPV
+  info$disease[i] <- info$vaccine[i]
+  rownames(info) <- NULL
 
+  data <- do.call(rbind, res)
   list(data = data, info = info)
 }
 
