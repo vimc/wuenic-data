@@ -108,6 +108,9 @@ prepare_wuenic <- function(date) {
 
 import_wuenic <- function(x) {
   x$touchstone <- sprintf("%s-%d", x$touchstone_name, x$touchstone_version)
+  x$description <- sprintf("%s (version %d)",
+                           x$touchstone_name,
+                           x$touchstone_version)
   dat <- prepare_wuenic(x$date)
 
   host <- Sys.getenv("MONTAGU_DB_HOST", "localhost")
@@ -122,14 +125,16 @@ import_wuenic <- function(x) {
   }
 
   d_touchstone_name <- data_frame(id = x$touchstone_name,
-                                  description = x$touchstone_name_description)
+                                  description = x$touchstone_name_description,
+                                  comment = x$touchstone_name_comment)
   insert_values_into(con, "touchstone_name", d_touchstone_name,
                      key = "id", text_key = TRUE)
 
   d_touchstone <- data_frame(id = x$touchstone,
                              touchstone_name = x$touchstone_name,
                              version = x$touchstone_version,
-                             description = x$touchstone_description,
+                             description = x$description,
+                             comment = x$touchstone_comment,
                              status = "in-preparation")
   insert_values_into(con, "touchstone", d_touchstone, text_key = TRUE)
 
